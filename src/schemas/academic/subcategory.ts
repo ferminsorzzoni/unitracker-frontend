@@ -1,5 +1,4 @@
 import z from "zod";
-import { optionalString } from "../../utils/optionalString";
 
 const createSubcategorySchema = z.object({
     name: z.string().trim().min(1, "Mínimo 1 carácter"),
@@ -7,7 +6,7 @@ const createSubcategorySchema = z.object({
 });
 
 const updateSubcategorySchema = z.object({
-    name: optionalString,
+    name: z.string().trim().min(1).optional(),
     order: z.int().positive().optional(),
 });
 

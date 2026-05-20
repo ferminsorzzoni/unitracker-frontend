@@ -18,5 +18,6 @@ type GetMyCareersResponseDTO = Omit<Career, "categories">[]
 type GetCareerResponseDTO = Career
 type UpdateCareerResponseDTO = Omit<Career, "categories">
 type CloneCareerResponseDTO = Career
+type CareerCardDTO = Omit<Career, "categories">
 
-export type { CreateCareerRequestDTO, UpdateCareerRequestDTO, CreateCareerResponseDTO, GetMyCareersResponseDTO, GetCareerResponseDTO, UpdateCareerResponseDTO, CloneCareerResponseDTO };
+export type { CreateCareerRequestDTO, UpdateCareerRequestDTO, CreateCareerResponseDTO, GetMyCareersResponseDTO, GetCareerResponseDTO, UpdateCareerResponseDTO, CloneCareerResponseDTO, CareerCardDTO };
