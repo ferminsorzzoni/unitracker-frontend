@@ -3,7 +3,6 @@ import { login, logout, refresh, register } from "../api/auth";
 import { handleUnexpectedError } from "../utils/error";
 import { useAuthStore } from "../stores/authStore";
 import { useNavigate } from "react-router-dom";
-import { loginWithGoogle } from "../utils/googleAuth";
 
 function useRegister() {
     const { setAuth } = useAuthStore();
@@ -44,20 +43,6 @@ function useRefresh() {
     });
 }
 
-function useGoogleLogin() {
-    const { setAuth } = useAuthStore();
-    const navigate = useNavigate();
-
-    return useMutation({
-        mutationFn: loginWithGoogle,
-        onSuccess: ({ accessToken, user }) => {
-            setAuth(user, accessToken);
-            navigate("/dashboard")
-        },
-        onError: (error) => handleUnexpectedError(error)
-    });
-}
-
 function useLogout() {
     const { logout: logoutAuth } = useAuthStore();
     const navigate = useNavigate();
@@ -72,4 +57,4 @@ function useLogout() {
     });
 }
 
-export { useRegister, useLogin, useRefresh, useLogout, useGoogleLogin };
+export { useRegister, useLogin, useRefresh, useLogout };

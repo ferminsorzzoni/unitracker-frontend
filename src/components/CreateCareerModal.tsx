@@ -9,7 +9,7 @@ export default function CreateCareerModal() {
     const dialogRef = useRef<HTMLDialogElement>(null);
     const { mutate, isPending } = useCreateCareer();
 
-    const { register, handleSubmit, formState: { errors } } = useForm<CreateCareerRequestDTO>({
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<CreateCareerRequestDTO>({
         resolver: zodResolver(createCareerSchema),
         mode: "onTouched",
     });
@@ -25,11 +25,11 @@ export default function CreateCareerModal() {
 
     return (
         <>
-            <button onClick={() => dialogRef.current?.showModal()}>
-                Crear carrera
+            <button onClick={() => dialogRef.current?.showModal()} className="w-8 h-8 border bg-gray-light border-gray-mid rounded-full px-4 hover:bg-primary-light hover:shadow-md font-medium text-xl transition-all flex items-center justify-center">
+                +
             </button>
 
-            <dialog ref={dialogRef} className="rounded-lg p-6 shadow-xl backdrop:bg-black/50">
+            <dialog ref={dialogRef} className="m-auto rounded-lg p-6 shadow-xl backdrop:bg-black/50">
                 <h2 className="text-xl font-medium text-gray-dark mb-4">Crear carrera</h2>
 
                 <div className="flex flex-col gap-4">
@@ -47,7 +47,13 @@ export default function CreateCareerModal() {
 
                     <div className="flex justify-end gap-3 mt-3">
                         <button 
-                            onClick={() => dialogRef.current?.close()}
+                            onClick={() => {
+                                reset({
+                                    name: "",
+                                    institution: "",
+                                });
+                                dialogRef.current?.close();
+                            }}
                             className="text-sm text-gray-mid hover:text-gray-dark transition-colors"
                         >
                             Cancelar

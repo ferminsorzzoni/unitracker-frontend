@@ -1,13 +1,19 @@
 import { Link } from "react-router-dom";
 import type { CareerCardDTO } from "../types/academic/career";
+import DeleteCareerModal from "./DeleteCareerModal";
 
 export default function CareerCard({ career }: { career: CareerCardDTO }) {
     return (
-        <li>
-            <Link to={`/careers/${career.id}`} className="flex flex-col gap-4 rounded-lg border-l-4 p-4 border-primary shadow-sm hover:shadow-md hover:border-primary-dark transition-all">
-                <h3 className="text-gray-dark font-medium text-2xl">{career.name}</h3>
+        <li className="relative">
+            <Link to={`/careers/${career.id}`} className="flex flex-col gap-4 rounded-lg border-l-4 p-4 bg-gray-light border-primary shadow-sm hover:shadow-md hover:border-primary-dark transition-all">
+                <div className="flex justify-between">
+                    <h3 className="text-gray-dark font-medium text-2xl">{career.name}</h3>
+                </div>
                 <p className="text-gray-mid text-xl">{career.institution}</p>
             </Link>
+            <div className="absolute top-4 right-4 z-10">
+               <DeleteCareerModal careerId={career.id} />
+            </div>
         </li>
     );
 }

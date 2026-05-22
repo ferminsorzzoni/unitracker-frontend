@@ -5,7 +5,7 @@ export default function Header() {
     const token = useAuthStore(state => state.token);
 
     return (
-        <header className="flex justify-between items-center border-b border-gray-mid p-2">
+        <header className="flex justify-between items-center p-2 shadow-lg bg-white z-10">
 
             <Link to="/dashboard" className="flex items-center">
                 <img src="/logos/unitracker.svg" alt="" className="w-12 h-12" />

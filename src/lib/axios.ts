@@ -6,7 +6,7 @@ interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
     _retry?: boolean,
 }
 
-const api = axios.create({ baseURL: import.meta.env.BASE_URL });
+const api = axios.create({ baseURL: import.meta.env.VITE_API_URL });
 
 api.interceptors.request.use(config => {
     const token = useAuthStore.getState().token;
