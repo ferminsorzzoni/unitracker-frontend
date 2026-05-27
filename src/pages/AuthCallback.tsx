@@ -10,6 +10,7 @@ export function AuthCallback() {
     const raw = new URLSearchParams(window.location.search).get('data')
     if (raw) {
       const { accessToken, user } = JSON.parse(decodeURIComponent(raw))
+      console.log(user)
       setAuth(user, accessToken)
       navigate('/dashboard')
     } else {

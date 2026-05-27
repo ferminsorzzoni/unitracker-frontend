@@ -7,7 +7,7 @@ export default function Footer() {
 
             <div className="flex items-center gap-2">
                 <img src="/logos/unitracker.svg" alt="" className="w-6 h-6" />
-                <span className="text-sm text-gray-mid">UniTracker © {new Date().getFullYear()}</span>
+                <span className="text-sm text-gray-mid">Unitracker © {new Date().getFullYear()}</span>
             </div>
 
             <div className="flex items-center gap-6">
