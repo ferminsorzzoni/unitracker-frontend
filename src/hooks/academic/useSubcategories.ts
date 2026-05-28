@@ -3,7 +3,7 @@ import { create, remove, update } from "../../api/academic/subcategory";
 import { handleUnexpectedError } from "../../utils/error";
 
 // 400, 403 y 404 no es posible en UI.
-function useCreateSubcategories(careerId: string) {
+function useCreateSubcategory(careerId: string) {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: create,
@@ -15,7 +15,7 @@ function useCreateSubcategories(careerId: string) {
 }
 
 // 400, 403 y 404 no es posible en UI.
-function useUpdateSubcategories(careerId: string) {
+function useUpdateSubcategory(careerId: string) {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: update,
@@ -27,7 +27,7 @@ function useUpdateSubcategories(careerId: string) {
 }
 
 // 400, 403 y 404 no es posible en UI.
-function useRemoveSubcategories(careerId: string) {
+function useRemoveSubcategory(careerId: string) {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: remove,
@@ -38,4 +38,4 @@ function useRemoveSubcategories(careerId: string) {
     });
 }
 
-export { useCreateSubcategories, useUpdateSubcategories, useRemoveSubcategories };
+export { useCreateSubcategory, useUpdateSubcategory, useRemoveSubcategory };

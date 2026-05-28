@@ -1,5 +1,5 @@
-import CareerCard from "../components/CareerCard";
-import CreateCareerModal from "../components/CreateCareerModal";
+import CareerCard from "../components/dashboard/CareerCard";
+import CreateCareerButton from "../components/dashboard/CreateCareerButton";
 import { useGetMyCareers } from "../hooks/academic/useCareers"
 import { getAxiosError } from "../utils/error";
 
@@ -19,7 +19,7 @@ export default function Dashboard() {
                 <h2 className="font-medium text-gray-dark text-xl">Tus carreras</h2>
 
                 <div>
-                    <CreateCareerModal />
+                    <CreateCareerButton />
                 </div>
             </div>
             

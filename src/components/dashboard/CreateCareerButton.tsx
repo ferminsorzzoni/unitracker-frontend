@@ -1,20 +1,24 @@
 import { useRef } from "react";
-import { useCreateCareer } from "../hooks/academic/useCareers";
 import { useForm } from "react-hook-form";
-import type { CreateCareerRequestDTO } from "../types/academic/career";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createCareerSchema } from "../schemas/academic/career";
+import { useCreateCareer } from "../../hooks/academic/useCareers";
+import { createCareerSchema } from "../../schemas/academic/career";
+import type { CreateCareerRequestDTO } from "../../types/academic/career";
 
-export default function CreateCareerModal() {
+export default function CreateCareerButton() {
     const dialogRef = useRef<HTMLDialogElement>(null);
     const { mutate, isPending } = useCreateCareer();
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm<CreateCareerRequestDTO>({
         resolver: zodResolver(createCareerSchema),
         mode: "onTouched",
+        defaultValues: {
+            name: "",
+            institution: "",
+        },
     });
 
-    const onSubmit = (body: CreateCareerRequestDTO) => {
+    const onCreate = (body: CreateCareerRequestDTO) => {
         const payload = {
             ...body,
             institution: body.institution === "" ? undefined : body.institution
@@ -29,10 +33,18 @@ export default function CreateCareerModal() {
                 +
             </button>
 
-            <dialog ref={dialogRef} className="m-auto rounded-lg p-6 shadow-xl backdrop:bg-black/50">
+            <dialog 
+                ref={dialogRef} 
+                onCancel={(e) => {
+                    e.preventDefault();
+                    reset();
+                    dialogRef.current?.close();
+                }} 
+                className="m-auto rounded-lg p-6 shadow-xl backdrop:bg-black/50"
+            >
                 <h2 className="text-xl font-medium text-gray-dark mb-4">Crear carrera</h2>
 
-                <div className="flex flex-col gap-4">
+                <form onSubmit={handleSubmit(onCreate)} className="flex flex-col gap-4">
                     <div className="flex flex-col gap-1">
                         <label className="text-sm font-medium text-gray-dark">Nombre</label>
                         <input {...register("name")} className="border rounded-lg px-3 py-2 text-sm" />
@@ -46,12 +58,10 @@ export default function CreateCareerModal() {
                     </div>
 
                     <div className="flex justify-end gap-3 mt-3">
-                        <button 
+                        <button
+                            type="button" 
                             onClick={() => {
-                                reset({
-                                    name: "",
-                                    institution: "",
-                                });
+                                reset();
                                 dialogRef.current?.close();
                             }}
                             className="text-sm text-gray-mid hover:text-gray-dark transition-colors"
@@ -59,14 +69,14 @@ export default function CreateCareerModal() {
                             Cancelar
                         </button>
                         <button
-                            onClick={handleSubmit(onSubmit)}
+                            type="submit"
                             disabled={isPending}
                             className="text-sm bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark disabled:opacity-50 transition-colors"
                         >
                             {isPending ? "Creando..." : "Crear"}
                         </button>
                     </div>
-                </div>
+                </form>
             </dialog>
         </>
     );

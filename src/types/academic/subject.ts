@@ -14,9 +14,13 @@ interface Subject {
     prerequisites: Prerequisite[],
 }
 
+interface ExtendedSubject extends Subject {
+    requiredBy: Prerequisite[],
+}
+
 type CreateSubjectRequestDTO = z.infer<typeof createSubjectSchema>
 type UpdateSubjectRequestDTO = z.infer<typeof updateSubjectSchema>
 type CreateSubjectResponseDTO = Omit<Subject, "prerequisites">
 type UpdateSubjectResponseDTO = Omit<Subject, "prerequisites">
 
-export type { Subject, CreateSubjectRequestDTO, UpdateSubjectRequestDTO, CreateSubjectResponseDTO, UpdateSubjectResponseDTO };
+export type { Subject, ExtendedSubject, CreateSubjectRequestDTO, UpdateSubjectRequestDTO, CreateSubjectResponseDTO, UpdateSubjectResponseDTO };

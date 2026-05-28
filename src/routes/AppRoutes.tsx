@@ -3,8 +3,7 @@ import PrivateRoute from "../components/PrivateRoute";
 import Layout from "../components/Layout";
 import Login from "../pages/Login";
 import Landing from "../pages/Landing";
-import Career from "../pages/careers/Career";
-import EditCareer from "../pages/careers/EditCareer";
+import Career from "../pages/Career";
 import NotFound from "../pages/NotFound";
 import Register from "../pages/Register";
 import PublicRoute from "../components/PublicRoute";
@@ -32,7 +31,6 @@ export default function AppRoutes() {
                 <Route element={<PrivateRoute />}>
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/careers/:careerId" element={<Career />} />
-                    <Route path="/careers/:careerId/edit" element={<EditCareer />} />
                 </Route>
 
                 <Route path="*" element={<NotFound />} />

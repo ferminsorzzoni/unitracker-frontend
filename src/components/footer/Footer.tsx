@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import FooterUnitrackerLogo from "./FooterUnitrackerLogo";
 import FooterLinks from "./FooterLinks";
 

@@ -16,7 +16,10 @@ export default function Register() {
         mode: "onTouched",
     });
 
-    const onSubmit = (body: RegisterRequestDTO) => mutate(body);
+    const onRegister = (body: RegisterRequestDTO) => {
+        mutate(body);
+        
+    }
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-gray-light">
@@ -28,7 +31,7 @@ export default function Register() {
 
                 <GoogleAuthButton />
 
-                <div className="grid grid-cols-2 gap-5 mt-4 border-t border-gray-mid pt-4">
+                <form onSubmit={handleSubmit(onRegister)} className="grid grid-cols-2 gap-5 mt-4 border-t border-gray-mid pt-4">
 
                     <div className="flex flex-col gap-1">
                         <label className="text-sm font-medium text-gray-dark">Email</label>
@@ -91,7 +94,7 @@ export default function Register() {
                     )}
 
                     <button
-                        onClick={handleSubmit(onSubmit)}
+                        type="submit"
                         disabled={isPending}
                         className="w-full py-2 rounded-lg text-sm text-white font-medium bg-primary hover:bg-primary-dark disabled:opacity-50 transition-colors"    
                     >
@@ -104,7 +107,7 @@ export default function Register() {
                             <Link to="/login" className="text-primary hover:text-primary-dark">Inicia sesión</Link>
                         </p>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     );

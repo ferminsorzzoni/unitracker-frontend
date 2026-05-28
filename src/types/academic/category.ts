@@ -1,6 +1,6 @@
 import type z from "zod";
 import type { Subcategory } from "./subcategory";
-import type { createCategorySchema, updateCategorySchema } from "../../schemas/academic/category";
+import type { createCategoryFormSchema, updateCategorySchema } from "../../schemas/academic/category";
 
 interface Category {
     id: string,
@@ -10,9 +10,10 @@ interface Category {
     subcategories: Subcategory[],
 }
 
-type CreateCategoryRequestDTO = z.infer<typeof createCategorySchema>
+type CreateCategoryRequestDTO = Pick<Category, "name" | "careerId">
+type CreateCategoryFormSchema = z.infer<typeof createCategoryFormSchema>
 type UpdateCategoryRequestDTO = z.infer<typeof updateCategorySchema>
 type CreateCategoryResponseDTO = Omit<Category, "subcategories">
 type UpdateCategoryResponseDTO = Omit<Category, "subcategories">
 
-export type { Category, CreateCategoryRequestDTO, UpdateCategoryRequestDTO, CreateCategoryResponseDTO, UpdateCategoryResponseDTO };
+export type { Category, CreateCategoryRequestDTO, CreateCategoryFormSchema, UpdateCategoryRequestDTO, CreateCategoryResponseDTO, UpdateCategoryResponseDTO };

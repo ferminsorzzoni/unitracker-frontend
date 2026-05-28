@@ -16,7 +16,7 @@ export default function Login() {
         mode: "onTouched",
     });
 
-    const onSubmit = (body: LoginRequestDTO) => mutate(body);
+    const onLogin = (body: LoginRequestDTO) => mutate(body);
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-gray-light">
@@ -25,7 +25,7 @@ export default function Login() {
                     <h1 className="text-2xl text-gray-dark mb-1">Inciar sesión</h1>
                     <p className="text-gray-mid">Ingresá a tu cuenta de Unitracker</p>
                 </div>
-                <div className="flex flex-col gap-5">
+                <form onSubmit={handleSubmit(onLogin)} className="flex flex-col gap-5">
                     <div className="flex flex-col gap-1">
                         <label className="text-sm font-medium text-gray-dark">Email</label>
                         <input 
@@ -63,7 +63,7 @@ export default function Login() {
                     )}
 
                     <button
-                        onClick={handleSubmit(onSubmit)}
+                        type="submit"
                         disabled={isPending}
                         className="w-full py-2 rounded-lg text-sm text-white font-medium bg-primary hover:bg-primary-dark disabled:opacity-50 transition-colors"    
                     >
@@ -76,7 +76,7 @@ export default function Login() {
                         ¿No tenés cuenta?{" "}
                         <Link to="/register" className="text-primary hover:text-primary-dark">Registrate</Link>
                     </p>
-                </div>
+                </form>
             </div>
         </div>
     );

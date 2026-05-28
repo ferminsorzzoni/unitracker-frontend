@@ -14,3 +14,7 @@
   --color-danger: #E24B4A;
   --color-warning: #BA7517;
 }
+
+button {
+  cursor: pointer;
+}

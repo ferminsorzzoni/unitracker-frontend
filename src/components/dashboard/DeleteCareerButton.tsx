@@ -1,8 +1,8 @@
 import { useRef } from "react";
-import { useRemoveCareer } from "../hooks/academic/useCareers";
-import thrashIcon from "../assets/icons/trash.svg";
+import { useRemoveCareer } from "../../hooks/academic/useCareers";
+import thrashIcon from "../../assets/icons/trash.svg";
 
-export default function DeleteCareerModal({ careerId }: { careerId: string}) {
+export default function DeleteCareerButton({ careerId }: { careerId: string}) {
     const dialogRef = useRef<HTMLDialogElement>(null);
     const { mutate, isPending } = useRemoveCareer();
 
@@ -16,16 +16,22 @@ export default function DeleteCareerModal({ careerId }: { careerId: string}) {
 
     return (
         <>
-            <button onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
+            <button 
+                onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
 
-                dialogRef.current?.showModal();
-            }} className="p-2 rounded-full border border-gray-light hover:border-gray-mid hover:shadow-lg transition-all">
+                    dialogRef.current?.showModal();
+                }} 
+                className="p-2 rounded-full border border-gray-light hover:border-gray-mid hover:shadow-lg transition-all"
+            >
                 <img src={thrashIcon} alt="Borrar carrera" className="w-4 h-4"/>
             </button>
 
-            <dialog ref={dialogRef} className="m-auto rounded-lg p-6 shadow-xl backdrop:bg-black/50">
+            <dialog 
+                ref={dialogRef} 
+                className="m-auto rounded-lg p-6 shadow-xl backdrop:bg-black/50"
+            >
                 <h2>¿Estás seguro de borrar esta carrera?</h2>
 
                 <div className="flex justify-end gap-3 mt-3">
