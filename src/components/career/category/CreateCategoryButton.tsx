@@ -1,45 +1,41 @@
 import { useRef } from "react";
-import { useCareerContext } from "../../../contexts/CareerContext";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useCreateCategory } from "../../../hooks/academic/useCategories";
 import { useForm } from "react-hook-form";
-import type { Category, UpdateCategoryRequestDTO } from "../../../types/academic/category";
-import { updateCategorySchema } from "../../../schemas/academic/category";
-import editIcon from "../../../assets/icons/edit.svg";
+import type { CreateCategoryFormSchema } from "../../../types/academic/category";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { createCategoryFormSchema } from "../../../schemas/academic/category";
 
-export default function EditCategoryButton({ category }: { category: Category }) {
+export default function CreateCategoryButton({ careerId }: { careerId: string }) {
     const dialogRef = useRef<HTMLDialogElement>(null);
-    const { categoryActions } = useCareerContext();
+    const { mutate, isPending } = useCreateCategory(careerId);
 
-    const { register, handleSubmit, formState: { errors }, reset } = useForm<UpdateCategoryRequestDTO>({
-        resolver: zodResolver(updateCategorySchema),
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<CreateCategoryFormSchema>({
+        resolver: zodResolver(createCategoryFormSchema),
         mode: "onTouched",
         defaultValues: {
-            name: category.name,
+            name: "",
         }
     });
 
-    const onUpdate = (body: UpdateCategoryRequestDTO) => {
-        categoryActions.update(
+    const onCreate = (body: CreateCategoryFormSchema) => {
+        mutate(
             {
-                body,
-                categoryId: category.id,
+                ...body,
+                careerId,
             },
             {
                 onSuccess: () => {
                     dialogRef.current?.close();
+                    reset();
                 }
             }
         );
-    };
+    }
 
     return (
         <>
-            <button 
-                onClick={() => dialogRef.current?.showModal()}
-                title="Editar categoría"
-                className="p-1 rounded-lg border border-gray-soft hover:border-gray-mid hover:shadow-lg transition-all"
-            >
-                <img src={editIcon} alt="Editar categoría" className="w-4 h-4"/>
+            <button onClick={() => dialogRef.current?.showModal()} className="px-4 rounded-lg border hover:bg-primary-light border-gray-soft hover:border-gray-mid hover:shadow-lg transition-all">
+                + Categoría
             </button>
 
 
@@ -52,12 +48,12 @@ export default function EditCategoryButton({ category }: { category: Category })
                 }}
                 className="m-auto rounded-lg p-6 shadow-xl backdrop:bg-black/50"
             >
-                <h2 className="text-xl font-medium text-gray-dark mb-4">Editar categoría</h2>
+                <h2 className="text-xl font-medium text-gray-dark mb-4">Crear categoría</h2>
 
-                <form onSubmit={handleSubmit(onUpdate)} className="flex flex-col gap-4">
+                <form onSubmit={handleSubmit(onCreate)} className="flex flex-col gap-4">
                     <div className="flex flex-col gap-1">
                         <label className="text-sm font-medium text-gray-dark">Nombre</label>
-                        <input {...register("name")} className="border rounded-lg px-3 py-2 text-sm" />
+                        <input {...register("name")} className="border rounded-lg px-3 py-2 text-sm" placeholder="Primer Año" />
                         {errors.name && <p className="text-xs text-danger">{errors.name.message}</p>}
                     </div>
 
@@ -74,10 +70,10 @@ export default function EditCategoryButton({ category }: { category: Category })
                         </button>
                         <button
                             type="submit"
-                            disabled={categoryActions.isUpdating}
+                            disabled={isPending}
                             className="text-sm bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark disabled:opacity-50 transition-colors"
                         >
-                            {categoryActions.isUpdating ? "Editando..." : "Editar"}
+                            {isPending ? "Creando..." : "Crear"}
                         </button>
                     </div>
                 </form>

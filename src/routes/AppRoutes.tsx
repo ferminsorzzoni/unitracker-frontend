@@ -23,6 +23,7 @@ export default function AppRoutes() {
 
             <Route element={<Layout />}>
                 <Route path="/privacy" element={<Privacy />} />
+                <Route path="/careers/:careerId" element={<Career />} />
 
                 <Route element={<PublicRoute />}>
                     <Route path="/" element={<Landing />} />
@@ -30,7 +31,6 @@ export default function AppRoutes() {
                 
                 <Route element={<PrivateRoute />}>
                     <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/careers/:careerId" element={<Career />} />
                 </Route>
 
                 <Route path="*" element={<NotFound />} />

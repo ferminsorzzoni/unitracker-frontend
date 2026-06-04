@@ -1,32 +1,33 @@
 import { useRef } from "react";
 import { useCareerContext } from "../../../contexts/CareerContext";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import type { Category, UpdateCategoryRequestDTO } from "../../../types/academic/category";
-import { updateCategorySchema } from "../../../schemas/academic/category";
-import editIcon from "../../../assets/icons/edit.svg";
+import { zodResolver } from "@hookform/resolvers/zod";
+import type { CreateSubcategoryFormSchema } from "../../../types/academic/subcategory";
+import { createSubcategoryFormSchema } from "../../../schemas/academic/subcategory";
+import addIcon from "../../../assets/icons/add.svg"
 
-export default function EditCategoryButton({ category }: { category: Category }) {
+export default function CreateSubcategoryButton({ categoryId }: { categoryId: string }) {
     const dialogRef = useRef<HTMLDialogElement>(null);
-    const { categoryActions } = useCareerContext();
+    const { subcategoryActions } = useCareerContext();
 
-    const { register, handleSubmit, formState: { errors }, reset } = useForm<UpdateCategoryRequestDTO>({
-        resolver: zodResolver(updateCategorySchema),
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<CreateSubcategoryFormSchema>({
+        resolver: zodResolver(createSubcategoryFormSchema),
         mode: "onTouched",
         defaultValues: {
-            name: category.name,
+            name: "",
         }
     });
 
-    const onUpdate = (body: UpdateCategoryRequestDTO) => {
-        categoryActions.update(
+    const onCreate = (body: CreateSubcategoryFormSchema) => {
+        subcategoryActions.create(
             {
-                body,
-                categoryId: category.id,
+                ...body,
+                categoryId,
             },
             {
                 onSuccess: () => {
                     dialogRef.current?.close();
+                    reset();
                 }
             }
         );
@@ -36,10 +37,10 @@ export default function EditCategoryButton({ category }: { category: Category })
         <>
             <button 
                 onClick={() => dialogRef.current?.showModal()}
-                title="Editar categoría"
+                title="Nueva subcategoría"
                 className="p-1 rounded-lg border border-gray-soft hover:border-gray-mid hover:shadow-lg transition-all"
             >
-                <img src={editIcon} alt="Editar categoría" className="w-4 h-4"/>
+                <img src={addIcon} alt="Crear subcategoría" className="w-4 h-4"/>
             </button>
 
 
@@ -52,12 +53,12 @@ export default function EditCategoryButton({ category }: { category: Category })
                 }}
                 className="m-auto rounded-lg p-6 shadow-xl backdrop:bg-black/50"
             >
-                <h2 className="text-xl font-medium text-gray-dark mb-4">Editar categoría</h2>
+                <h2 className="text-xl font-medium text-gray-dark mb-4">Crear subcategoría</h2>
 
-                <form onSubmit={handleSubmit(onUpdate)} className="flex flex-col gap-4">
+                <form onSubmit={handleSubmit(onCreate)} className="flex flex-col gap-4">
                     <div className="flex flex-col gap-1">
                         <label className="text-sm font-medium text-gray-dark">Nombre</label>
-                        <input {...register("name")} className="border rounded-lg px-3 py-2 text-sm" />
+                        <input {...register("name")} className="border rounded-lg px-3 py-2 text-sm" placeholder="Primer Cuatrimestre"/>
                         {errors.name && <p className="text-xs text-danger">{errors.name.message}</p>}
                     </div>
 
@@ -74,10 +75,10 @@ export default function EditCategoryButton({ category }: { category: Category })
                         </button>
                         <button
                             type="submit"
-                            disabled={categoryActions.isUpdating}
+                            disabled={subcategoryActions.isCreating}
                             className="text-sm bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark disabled:opacity-50 transition-colors"
                         >
-                            {categoryActions.isUpdating ? "Editando..." : "Editar"}
+                            {subcategoryActions.isCreating ? "Creando..." : "Crear"}
                         </button>
                     </div>
                 </form>

@@ -29,7 +29,11 @@ export default function CreateCareerButton() {
 
     return (
         <>
-            <button onClick={() => dialogRef.current?.showModal()} className="w-8 h-8 border bg-gray-light border-gray-mid rounded-full px-4 hover:bg-primary-light hover:shadow-md font-medium text-xl transition-all flex items-center justify-center">
+            <button 
+                onClick={() => dialogRef.current?.showModal()} 
+                title="Nueva carrera"
+                className="w-8 h-8 border bg-gray-light border-gray-mid rounded-full px-4 hover:bg-primary-light hover:shadow-md font-medium text-xl transition-all flex items-center justify-center"
+            >
                 +
             </button>
 

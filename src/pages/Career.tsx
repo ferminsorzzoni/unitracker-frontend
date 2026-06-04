@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useCloneCareer, useGetCareer } from "../hooks/academic/useCareers";
+import { useGetCareer } from "../hooks/academic/useCareers";
 import { getAxiosError } from "../utils/error";
 import { useRemoveCategory, useUpdateCategory } from "../hooks/academic/useCategories";
 import { useCreateSubcategory, useRemoveSubcategory, useUpdateSubcategory } from "../hooks/academic/useSubcategories";
@@ -9,54 +9,62 @@ import CategoryCard from "../components/career/category/CategoryCard";
 import { useAuthStore } from "../stores/authStore";
 import { CareerProvider } from "../contexts/CareerContext";
 import type { ExtendedSubject } from "../types/academic/subject";
-import CreateCategoryButton from "../components/career/CreateCategoryButton";
+import CreateCategoryButton from "../components/career/category/CreateCategoryButton";
 import CloneCareerButton from "../components/career/CloneCareerButton";
+import { isPrerequisiteMet } from "../utils/career";
 
 export default function Career() {
     const { careerId } = useParams<{ careerId: string }>();
     const user = useAuthStore(state => state.user);
     const { data, isLoading, error } = useGetCareer(careerId!);
 
-    const { mutate: cloneCareer, isPending: isCloningCareer } = useCloneCareer();
-    isCloningCareer
+    const { mutate: updateCategory, isPending: isUpdatingCategory } = useUpdateCategory(careerId!);
+    const { mutate: deleteCategory, isPending: isDeletingCategory } = useRemoveCategory(careerId!);
 
-    const { mutate: updateCategory } = useUpdateCategory(careerId!);
-    const { mutate: deleteCategory } = useRemoveCategory(careerId!);
+    const { mutate: createSubcategory, isPending: isCreatingSubcategory } = useCreateSubcategory(careerId!);
+    const { mutate: updateSubcategory, isPending: isUpdatingSubcategory } = useUpdateSubcategory(careerId!);
+    const { mutate: deleteSubcategory, isPending: isDeletingSubcategory } = useRemoveSubcategory(careerId!);
 
-    const { mutate: createSubcategory } = useCreateSubcategory(careerId!);
-    const { mutate: updateSubcategory } = useUpdateSubcategory(careerId!);
-    const { mutate: deleteSubcategory } = useRemoveSubcategory(careerId!);
+    const { mutate: createSubject, isPending: isCreatingSubject } = useCreateSubject(careerId!);
+    const { mutate: updateSubject, isPending: isUpdatingSubject } = useUpdateSubject(careerId!);
+    const { mutate: deleteSubject, isPending: isDeletingSubject } = useRemoveSubject(careerId!);
 
-    const { mutate: createSubject } = useCreateSubject(careerId!);
-    const { mutate: updateSubject } = useUpdateSubject(careerId!);
-    const { mutate: deleteSubject } = useRemoveSubject(careerId!);
-
-    const { mutate: createPrerequisite } = useCreatePrerequisite(careerId!);
-    const { mutate: removePrerequisite } = useRemovePrerequisite(careerId!);
+    const { mutate: createPrerequisite, isPending: isCreatingPrerequisite } = useCreatePrerequisite(careerId!);
+    const { mutate: removePrerequisite, isPending: isDeletingPrerequisite } = useRemovePrerequisite(careerId!);
 
     const categoryActions = {
         update: updateCategory,
+        isUpdating: isUpdatingCategory,
         delete: deleteCategory,
+        isDeleting: isDeletingCategory,
     };
 
     const subcategoryActions = {
         create: createSubcategory,
+        isCreating: isCreatingSubcategory,
         update: updateSubcategory,
+        isUpdating: isUpdatingSubcategory,
         delete: deleteSubcategory,
+        isDeleting: isDeletingSubcategory,
     };
 
     const subjectActions = {
         create: createSubject,
+        isCreating: isCreatingSubject,
         update: updateSubject,
+        isUpdating: isUpdatingSubject,
         delete: deleteSubject,
+        isDeleting: isDeletingSubject,
     };
 
     const prerequisiteActions = {
         create: createPrerequisite,
+        isCreating: isCreatingPrerequisite,
         delete: removePrerequisite,
+        isDeleting: isDeletingPrerequisite,
     };
 
-    if(isLoading) return <p>Cargando...</p>
+    if(isLoading) return <div className="flex justify-center items-center flex-1"><div className="w-5 h-5 border-2 border-gray-soft border-t-primary rounded-full animate-spin" /></div>
     if(error) {
         const { message } = getAxiosError(error);
         return <p>{message}</p>
@@ -71,9 +79,13 @@ export default function Career() {
             .flatMap(c => c.subcategories)
             .flatMap(s => s.subjects)
             .map(subject => [
-                subject.id, 
+                subject.id,
                 {
                     ...subject,
+                    prerequisites: subject.prerequisites.map(prerequisite => ({
+                        ...prerequisite,
+                        isMet: false,
+                    })),
                     requiredBy: [],
                 }
             ])
@@ -81,9 +93,9 @@ export default function Career() {
 
     Object.values(subjectsMap).forEach(subject => {
         subject.prerequisites.forEach(prerequisite  => {
-            subjectsMap[prerequisite.prerequisiteId]
-            ?.requiredBy
-            .push(prerequisite)
+            const prerequisiteSubject = subjectsMap[prerequisite.prerequisiteId];
+            prerequisiteSubject?.requiredBy.push(prerequisite);
+            prerequisite.isMet = isPrerequisiteMet(prerequisiteSubject?.state, prerequisite.type);
         })
     })
         
@@ -96,13 +108,15 @@ export default function Career() {
                     <p className="text-md text-gray-mid">{data.institution}</p>
                 </div>
 
-                <div className="flex">
-                    {isOwner ? (
-                        <CreateCategoryButton careerId={careerId!}/>
-                    ) : (
-                        <CloneCareerButton careerId={careerId!}/>
-                    )}
-                </div>
+                {user && 
+                    <div className="flex">
+                        {isOwner ? (
+                            <CreateCategoryButton careerId={careerId!}/>
+                        ) : (
+                            <CloneCareerButton careerId={careerId!}/>
+                        )}
+                    </div>
+                }
             </div>
 
             
@@ -116,11 +130,16 @@ export default function Career() {
                 subjectActions,
                 prerequisiteActions,
             }}>
-                <ul className="px-6 py-2">
-                    {data.categories.map(category => (
-                        <CategoryCard key={category.id} category={category} />
+                <ol className="px-6 py-2">
+                    {[...data.categories]
+                    .sort((a, b) => a.order - b.order)
+                    .map(category => (
+                        <CategoryCard 
+                            key={category.id} 
+                            category={category} 
+                        />
                     ))}
-                </ul>
+                </ol>
             </CareerProvider>
             
         </div>

@@ -1,13 +1,13 @@
 import { useRef } from "react";
-import thrashIcon from "../../../assets/icons/trash.svg";
 import { useCareerContext } from "../../../contexts/CareerContext";
+import thrashIcon from "../../../assets/icons/trash.svg";
 
-export default function DeleteCategoryButton({ categoryId }: { categoryId: string }) {
+export default function DeletePrerequisiteButton({ prerequisiteId }: { prerequisiteId: string }) {
     const dialogRef = useRef<HTMLDialogElement>(null);
-    const { categoryActions } = useCareerContext();
+    const { prerequisiteActions } = useCareerContext();
 
     const onDelete = () => {
-        categoryActions.delete(categoryId, {
+        prerequisiteActions.delete(prerequisiteId, {
             onSuccess: () => {
                 dialogRef.current?.close();
             }
@@ -23,17 +23,17 @@ export default function DeleteCategoryButton({ categoryId }: { categoryId: strin
 
                     dialogRef.current?.showModal();
                 }}
-                title="Borrar categoría"
-                className="p-1 rounded-lg border border-gray-soft hover:border-gray-mid hover:shadow-lg transition-all"
+                title="Borrar correlativa"
+                className="p-1 rounded-lg hover:shadow-lg transition-all"
             >
-                <img src={thrashIcon} alt="Borrar categoría" className="w-4 h-4"/>
+                <img src={thrashIcon} alt="Borrar correlativa" className="w-3 h-3"/>
             </button>
 
             <dialog 
                 ref={dialogRef} 
                 className="m-auto rounded-lg p-6 shadow-xl backdrop:bg-black/50"
             >
-                <h2>¿Estás seguro de borrar esta categoría?</h2>
+                <h2 className="text-lg">¿Estás seguro de borrar esta correlativa?</h2>
 
                 <div className="flex justify-end gap-3 mt-3">
                         <button 
@@ -44,10 +44,10 @@ export default function DeleteCategoryButton({ categoryId }: { categoryId: strin
                         </button>
                         <button
                             onClick={() => onDelete()}
-                            disabled={categoryActions.isDeleting}
+                            disabled={prerequisiteActions.isDeleting}
                             className="text-sm bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark disabled:opacity-50 transition-colors"
                         >
-                            {categoryActions.isDeleting ? "Borrando..." : "Borrar"}
+                            {prerequisiteActions.isDeleting ? "Borrando..." : "Borrar"}
                         </button>
                     </div>
             </dialog>

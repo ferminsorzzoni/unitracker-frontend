@@ -18,6 +18,8 @@ export default function Login() {
 
     const onLogin = (body: LoginRequestDTO) => mutate(body);
 
+    /* <Link to="/recover" className="text-sm text-primary hover:text-primary-dark">Olvidé mi contraseña</Link> */
+
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-gray-light">
             <div className="bg-white p-8 rounded-2xl">
@@ -43,7 +45,6 @@ export default function Login() {
                     <div className="flex flex-col gap-1">
                         <div className="flex justify-between">
                             <label className="text-sm font-medium text-gray-dark">Contraseña</label>
-                            <Link to="/recover" className="text-sm text-primary hover:text-primary-dark">Olvidé mi contraseña</Link>
                         </div>
                         
                         <input 

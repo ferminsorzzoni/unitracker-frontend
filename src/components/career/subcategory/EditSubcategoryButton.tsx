@@ -1,41 +1,45 @@
+import type { Subcategory, UpdateSubcategoryRequestDTO } from "../../../types/academic/subcategory";
+import editIcon from "../../../assets/icons/edit.svg";
 import { useRef } from "react";
-import { useCreateCategory } from "../../hooks/academic/useCategories";
+import { useCareerContext } from "../../../contexts/CareerContext";
 import { useForm } from "react-hook-form";
-import type { CreateCategoryFormSchema } from "../../types/academic/category";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createCategoryFormSchema } from "../../schemas/academic/category";
+import { updateSubcategorySchema } from "../../../schemas/academic/subcategory";
 
-export default function CreateCategoryButton({ careerId }: { careerId: string }) {
+export default function EditSubcategoryButton({ subcategory }: { subcategory: Subcategory }) {
     const dialogRef = useRef<HTMLDialogElement>(null);
-    const { mutate, isPending } = useCreateCategory(careerId);
+    const { subcategoryActions } = useCareerContext();
 
-    const { register, handleSubmit, formState: { errors }, reset } = useForm<CreateCategoryFormSchema>({
-        resolver: zodResolver(createCategoryFormSchema),
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<UpdateSubcategoryRequestDTO>({
+        resolver: zodResolver(updateSubcategorySchema),
         mode: "onTouched",
         defaultValues: {
-            name: "",
+            name: subcategory.name,
         }
     });
 
-    const onCreate = (body: CreateCategoryFormSchema) => {
-        mutate(
+    const onUpdate = (body: UpdateSubcategoryRequestDTO) => {
+        subcategoryActions.update(
             {
-                ...body,
-                careerId,
+                body,
+                subcategoryId: subcategory.id,
             },
             {
                 onSuccess: () => {
                     dialogRef.current?.close();
-                    reset();
                 }
             }
         );
-    }
+    };
 
     return (
         <>
-            <button onClick={() => dialogRef.current?.showModal()} className="px-4 rounded-lg border hover:bg-primary-light border-gray-soft hover:border-gray-mid hover:shadow-lg transition-all">
-                + Categoría
+            <button 
+                onClick={() => dialogRef.current?.showModal()}
+                title="Editar subcategoría"
+                className="p-1 rounded-lg border border-gray-soft hover:border-gray-mid hover:shadow-lg transition-all"
+            >
+                <img src={editIcon} alt="Editar subcategoría" className="w-4 h-4"/>
             </button>
 
 
@@ -48,9 +52,9 @@ export default function CreateCategoryButton({ careerId }: { careerId: string })
                 }}
                 className="m-auto rounded-lg p-6 shadow-xl backdrop:bg-black/50"
             >
-                <h2 className="text-xl font-medium text-gray-dark mb-4">Crear categoría</h2>
+                <h2 className="text-xl font-medium text-gray-dark mb-4">Editar subcategoría</h2>
 
-                <form onSubmit={handleSubmit(onCreate)} className="flex flex-col gap-4">
+                <form onSubmit={handleSubmit(onUpdate)} className="flex flex-col gap-4">
                     <div className="flex flex-col gap-1">
                         <label className="text-sm font-medium text-gray-dark">Nombre</label>
                         <input {...register("name")} className="border rounded-lg px-3 py-2 text-sm" />
@@ -70,10 +74,10 @@ export default function CreateCategoryButton({ careerId }: { careerId: string })
                         </button>
                         <button
                             type="submit"
-                            disabled={isPending}
+                            disabled={subcategoryActions.isUpdating}
                             className="text-sm bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark disabled:opacity-50 transition-colors"
                         >
-                            {isPending ? "Creando..." : "Crear"}
+                            {subcategoryActions.isUpdating ? "Editando..." : "Editar"}
                         </button>
                     </div>
                 </form>

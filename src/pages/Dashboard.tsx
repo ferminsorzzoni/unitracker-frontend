@@ -6,7 +6,7 @@ import { getAxiosError } from "../utils/error";
 export default function Dashboard() {
     const { data, isLoading, error } = useGetMyCareers();
 
-    if(isLoading) return <p>Cargando...</p>
+    if(isLoading) return <div className="flex justify-center items-center flex-1"><div className="w-5 h-5 border-2 border-gray-soft border-t-primary rounded-full animate-spin" /></div>
     if(error) {
         const { message } = getAxiosError(error);
         return <p>{message}</p>
