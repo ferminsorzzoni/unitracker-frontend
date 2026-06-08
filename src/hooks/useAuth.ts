@@ -49,8 +49,8 @@ function useLogout() {
     return useMutation({
         mutationFn: logout,
         onSuccess: () => {
-            logoutAuth();
             window.location.replace("/");
+            logoutAuth();
         },
         onError: (error) => handleUnexpectedError(error)
     });
