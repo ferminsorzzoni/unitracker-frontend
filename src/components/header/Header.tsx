@@ -15,7 +15,7 @@ export default function Header() {
 
             {token ? (
                 <div className="flex items-center gap-4">
-                    <p className="text-gray-dark text-sm sm:text-xs hidden sm:inline">{user!.email}</p>
+                    <p className="text-gray-dark text-sm hidden sm:inline">{user!.email}</p>
                     <HeaderLogoutButton />
                 </div>
             ) : (
