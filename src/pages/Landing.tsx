@@ -37,7 +37,7 @@ export default function Landing() {
                     </div>
 
                     <div className="overflow-hidden">
-                        <img src={screenshotImg} alt="Unitracker app" className="w-[150%] translate-x-[-17%] sm:w-full sm:translate-x-0" />
+                        <img src={screenshotImg} alt="Unitracker app" className="w-full h-48 object-cover object-top sm:h-auto sm:object-auto" />
                     </div>
                         
 
