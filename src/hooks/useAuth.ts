@@ -45,15 +45,12 @@ function useRefresh() {
 
 function useLogout() {
     const { logout: logoutAuth } = useAuthStore();
-    const navigate = useNavigate();
 
     return useMutation({
         mutationFn: logout,
         onSuccess: () => {
-            navigate("/", { replace: true });
-            setTimeout(() => {
-                logoutAuth();
-            }, 10000);
+            logoutAuth();
+            window.location.replace("/");
         },
         onError: (error) => handleUnexpectedError(error)
     });
