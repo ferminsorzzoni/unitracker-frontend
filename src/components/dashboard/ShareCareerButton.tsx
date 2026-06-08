@@ -7,7 +7,7 @@ export default function ShareCareerButton({ careerId }: { careerId: string }) {
             onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                navigator.clipboard.writeText(`unitracker.com/careers/${careerId}`);
+                navigator.clipboard.writeText(`unitracker.dev/careers/${careerId}`);
                 toast.success("Copiado al portapapeles!");
             }} 
             className="p-2 rounded-full border border-gray-light hover:border-gray-mid hover:shadow-lg transition-all"
