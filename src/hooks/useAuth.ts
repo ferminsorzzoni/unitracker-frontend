@@ -53,7 +53,7 @@ function useLogout() {
             navigate("/", { replace: true });
             setTimeout(() => {
                 logoutAuth();
-            }, 100);
+            }, 10000);
         },
         onError: (error) => handleUnexpectedError(error)
     });
