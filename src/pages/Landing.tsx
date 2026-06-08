@@ -35,8 +35,7 @@ export default function Landing() {
                         <div className="w-2 h-2 rounded-full bg-gray-soft" />
                         <span className="text-xs text-gray-mid ml-2 font-mono">unitracker.com / id-carrera</span>
                     </div>
-                    {/* Reemplazar con <img src="/screenshot.png" alt="Unitracker app" className="w-full" /> */}
-                        <img src={screenshotImg} />
+                        <img src={screenshotImg} alt="Unitracker app" className="w-full" />
 
                 </div>
  
