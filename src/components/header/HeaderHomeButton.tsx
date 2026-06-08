@@ -6,8 +6,8 @@ export default function HeaderHomeButton() {
 
     return (
         <Link to={token ? "/dashboard" : "/"} className="flex items-center" title="Home">
-            <img src="/logos/unitracker.svg" alt="" className="w-12 h-12 sm:w-8 sm:h-8" />
-            <h1 className="text-4xl font-medium text-gray-dark sm:text-2xl">Unitracker</h1>
+            <img src="/logos/unitracker.svg" alt="" className="w-12 h-12" />
+            <h1 className="text-4xl font-medium text-gray-dark">Unitracker</h1>
         </Link>
     );
 }

@@ -19,7 +19,7 @@ export default function Header() {
                     <HeaderLogoutButton />
                 </div>
             ) : (
-                <div className="flex items-center gap-3 sm:gap-1">
+                <div className="flex items-center gap-1 sm:gap-3">
                     <HeaderLoginButton />
                     <HeaderRegisterButton />
                 </div>
