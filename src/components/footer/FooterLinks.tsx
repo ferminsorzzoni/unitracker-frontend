@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function FooterLinks() {
     return (
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-6 sm:gap-3">
             <Link to="/privacy" className="text-sm text-gray-mid hover:text-primary transition-colors">
                 Privacidad
             </Link>

@@ -15,11 +15,11 @@ export default function Header() {
 
             {token ? (
                 <div className="flex items-center gap-4">
-                    <p className="text-gray-dark text-sm">{user!.email}</p>
+                    <p className="text-gray-dark text-sm sm:text-xs hidden sm:inline">{user!.email}</p>
                     <HeaderLogoutButton />
                 </div>
             ) : (
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 sm:gap-1">
                     <HeaderLoginButton />
                     <HeaderRegisterButton />
                 </div>
