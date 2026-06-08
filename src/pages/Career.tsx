@@ -130,7 +130,7 @@ export default function Career() {
                 subjectActions,
                 prerequisiteActions,
             }}>
-                <ol className="px-6 py-2">
+                <ol className="px-6 py-2 flex flex-col gap-6">
                     {[...data.categories]
                     .sort((a, b) => a.order - b.order)
                     .map(category => (

@@ -1,10 +1,13 @@
 import { Link } from "react-router-dom";
+import { useAuthStore } from "../../stores/authStore";
 
 export default function HeaderHomeButton() {
+    const token = useAuthStore(state => state.token);
+
     return (
-        <Link to="/dashboard" className="flex items-center" title="Home">
+        <Link to={token ? "/dashboard" : "/"} className="flex items-center" title="Home">
             <img src="/logos/unitracker.svg" alt="" className="w-12 h-12" />
-            <h1 className="text-4xl font-medium">Unitracker</h1>
+            <h1 className="text-4xl font-medium text-gray-dark">Unitracker</h1>
         </Link>
     );
 }

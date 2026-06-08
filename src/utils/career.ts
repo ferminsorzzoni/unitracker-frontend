@@ -23,5 +23,14 @@ export function isSubjectAvailable(subject: ExtendedSubject) {
 
 export function isPrerequisiteMet(state: SubjectState | undefined, type: PrerequisiteType) {
     if(!state) return false;
-    return state === type || (state === "FAILED" && type === "ATTEMPTED");
+    if(type === "ATTEMPTED") {
+        return state === "FAILED" || state === "REGULARIZED" || state === "PASSED";
+    }
+    if(type === "REGULARIZED") {
+        return state === "REGULARIZED" || state === "PASSED";
+    }
+    if(type === "PASSED") {
+        return state === "PASSED";
+    }
+    return false;
 }

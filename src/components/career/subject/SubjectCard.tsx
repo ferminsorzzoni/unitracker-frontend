@@ -50,7 +50,7 @@ export default function SubjectCard({ subject }: { subject: ExtendedSubject }) {
                         {isAvailable ? (
                             <SubjectStateSelect subjectId={subject.id} currentState={subject.state}/>
                         ) : (
-                            <div className="text-xs text-gray-dark bg-gray-mid border-0 rounded pl-2 pr-2 py-0.5 cursor-not-allowed flex justify-between items-center gap-2.5">
+                            <div className="text-xs text-gray-dark bg-gray-mid border-0 rounded pl-3 pr-2 py-0.5 cursor-not-allowed flex justify-between items-center gap-6.5">
                                 <span>Bloqueada</span>
                                 <img src={lockIcon} className="w-3 h-3"/>
                             </div>
@@ -66,8 +66,11 @@ export default function SubjectCard({ subject }: { subject: ExtendedSubject }) {
                         <p className="text-xs text-gray-dark font-bold">Materias correlativas:</p>
                         {isOwner && <CreatePrerequisiteButton subject={subject}/>}
                     </div>
-                    <ul className="flex flex-col gap-1">
-                        {[...subject.prerequisites]
+                    {subject.prerequisites.length === 0 ? (
+                        <p className="text-xs text-gray-dark">Ninguna</p>
+                    ) : (
+                        <ul className="flex flex-col gap-1">
+                        {subject.prerequisites
                         .map(prerequisite => (
                             <PrerequisiteLine 
                                 key={prerequisite.id} 
@@ -75,16 +78,22 @@ export default function SubjectCard({ subject }: { subject: ExtendedSubject }) {
                             />
                         ))}
                     </ul>
+                    )}
+                    
                     <p className="text-xs text-gray-dark font-bold">Correlativa de:</p>
-                    <ul className="mb-1">
-                        {[...subject.requiredBy]
-                        .map(prerequisite => (
-                            <RequiredByLine 
-                                key={prerequisite.id} 
-                                prerequisite={prerequisite} 
-                            />
-                        ))}
-                    </ul>
+                        {subject.requiredBy.length === 0 ? (
+                            <p className="text-xs text-gray-dark">Ninguna</p>
+                        ) : (
+                            <ul className="mb-1">
+                                {subject.requiredBy
+                                .map(prerequisite => (
+                                    <RequiredByLine 
+                                        key={prerequisite.id} 
+                                        prerequisite={prerequisite} 
+                                    />
+                                ))}
+                            </ul>
+                        )}
                 </div>
             </div>
         </li>

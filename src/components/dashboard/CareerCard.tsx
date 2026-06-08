@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import type { CareerCardDTO } from "../../types/academic/career";
 import DeleteCareerButton from "./DeleteCareerButton";
 import EditCareerButton from "./EditCareerButton";
+import ShareCareerButton from "./ShareCareerButton";
 
 export default function CareerCard({ career }: { career: CareerCardDTO }) {
     return (
@@ -13,6 +14,7 @@ export default function CareerCard({ career }: { career: CareerCardDTO }) {
                 <p className="text-gray-mid text-xl">{career.institution}</p>
             </Link>
             <div className="absolute top-4 right-4 z-10">
+                <ShareCareerButton careerId={career.id} />
                 <EditCareerButton career={career} />
                 <DeleteCareerButton careerId={career.id} />
             </div>

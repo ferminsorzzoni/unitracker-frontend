@@ -35,7 +35,7 @@ export default function CreateCategoryButton({ careerId }: { careerId: string })
     return (
         <>
             <button onClick={() => dialogRef.current?.showModal()} className="px-4 rounded-lg border hover:bg-primary-light border-gray-soft hover:border-gray-mid hover:shadow-lg transition-all">
-                + Categoría
+                + Año
             </button>
 
 
@@ -48,7 +48,7 @@ export default function CreateCategoryButton({ careerId }: { careerId: string })
                 }}
                 className="m-auto rounded-lg p-6 shadow-xl backdrop:bg-black/50"
             >
-                <h2 className="text-xl font-medium text-gray-dark mb-4">Crear categoría</h2>
+                <h2 className="text-xl font-medium text-gray-dark mb-4">Crear año</h2>
 
                 <form onSubmit={handleSubmit(onCreate)} className="flex flex-col gap-4">
                     <div className="flex flex-col gap-1">
