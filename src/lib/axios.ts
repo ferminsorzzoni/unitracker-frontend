@@ -35,6 +35,7 @@ api.interceptors.response.use(
                 original.headers.Authorization = `Bearer ${data.accessToken}`;
                 return api(original);
             } catch(error) {
+                console.log("INTERCEPTOR REDIRIGIENDO A LOGIN");
                 useAuthStore.getState().logout();
                 window.location.href = "/login";
                 return Promise.reject(error);

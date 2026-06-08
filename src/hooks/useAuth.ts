@@ -50,9 +50,7 @@ function useLogout() {
     return useMutation({
         mutationFn: logout,
         onSuccess: () => {
-            console.log("logout success")
             logoutAuth();
-            console.log("goint to /")
             navigate("/");
         },
         onError: (error) => handleUnexpectedError(error)
