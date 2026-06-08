@@ -36,7 +36,7 @@ export default function Landing() {
                         <span className="text-xs text-gray-mid ml-2 font-mono">unitracker.com / id-carrera</span>
                     </div>
                     <div className="overflow-hidden">
-                        <img src={screenshotImg} alt="Unitracker app" className="w-full min-w-lg" />
+                        <img src={screenshotImg} alt="Unitracker app" className="w-[120%] ml-[-10%] sm:w-full sm:ml-0" />
                     </div>
                 </div>
  
